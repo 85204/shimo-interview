@@ -6,11 +6,21 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      cityData: ['北京', '上海'],
+      cityData: [],
     }
+  },
+  created() {
+    (async () => {
+      const res = await axios.post('/api/get/city')
+      console.log(res.data)
+      if (!res.data.errno) {
+        this.cityData = res.data.city
+      }
+    })()
   },
   methods: {
     handleCityClick(e) {
@@ -23,4 +33,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>

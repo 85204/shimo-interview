@@ -7,13 +7,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
       // msg: ''
     }
   },
-  mounted() {
+  created() {
     if (!window.text)
       window.text = {}
   },
@@ -34,8 +35,10 @@ export default {
   },
   methods: {
     select() {
-      window.text = {}
-      this.$router.push('/City')
+      window.text = {};
+      (async () => {
+        this.$router.push('/City')
+      })()
     }
   }
 }

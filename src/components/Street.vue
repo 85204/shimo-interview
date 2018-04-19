@@ -6,28 +6,21 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      // streetData: ['虹口1', '虹口2', '虹口3'],
+      streetData: [],
     }
   },
-  computed: {
-    streetData() {
-      switch (window.text.county) {
-        case '东城':
-          return ['东城', '西城']
-        case '西城':
-          return ['虹口', '浦东']
-        case '虹口':
-          return ['虹口1', '虹口2']
-        case '浦东':
-          return ['浦东2', '浦东3']
-        default:
-          this.$router.push('/')
-          return []
+  created() {
+    (async () => {
+      const res = await axios.post('/api/get/street', { city: window.text.city, county: window.text.county })
+      console.log(res.data)
+      if (!res.data.errno) {
+        this.streetData = res.data.street
       }
-    }
+    })()
   },
   methods: {
     handleStreetClick(e) {

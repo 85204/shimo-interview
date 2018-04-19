@@ -6,24 +6,21 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-
+      countyData: []
     }
   },
-  computed: {
-    countyData() {
-      switch (window.text.city) {
-        case '北京':
-          return ['东城', '西城']
-        case '上海':
-          return ['虹口', '浦东']
-        default:
-          this.$router.push('/')
-          return []
+  created() {
+    (async () => {
+      const res = await axios.post('/api/get/county', { city: window.text.city })
+      console.log(res.data)
+      if (!res.data.errno) {
+        this.countyData = res.data.county
       }
-    }
+    })()
   },
   methods: {
     handleCountyClick(e) {
